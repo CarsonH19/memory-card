@@ -1,27 +1,26 @@
 import { useState, useEffect } from "react";
 
-function Grid() {
+function Grid({ onClick }) {
   const [images, setImages] = useState([]);
 
   useEffect(() => {
-    fetchPlanetImages();
+    fetchImages();
   }, []);
 
-  const fetchPlanetImages = async () => {
+  const fetchImages = async () => {
     try {
       const response = await fetch(
         "https://images-api.nasa.gov/search?q=nebula&media_type=image"
       );
       const data = await response.json();
       const items = data.collection.items;
-      const planetImages = items.map((item) => {
+      const images = items.map((item) => {
         return item.links[0].href;
       });
-      // Select 50 random images
-      const randomImages = getRandomImages(planetImages, 50);
+      const randomImages = getRandomImages(images, 50);
       setImages(randomImages);
     } catch (error) {
-      console.error("Error fetching planet images:", error);
+      console.error("Error fetching images:", error);
     }
   };
 
@@ -32,11 +31,18 @@ function Grid() {
 
   return (
     <div className="grid">
-      {images.map((image, index) => (
-        <img className="card" key={index} src={image} alt={`Planet ${index + 1}`} />
+      {images.slice(0, 8).map((image, index) => (
+        <img
+          className="card"
+          onClick={onClick}
+          key={index}
+          src={image}
+          alt={`Image ${index + 1}`}
+        />
       ))}
     </div>
   );
 }
 
 export default Grid;
+
