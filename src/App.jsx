@@ -21,17 +21,19 @@ function App() {
   };
 
   const onCardClick = (e) => {
-    const newCard = e.target;
+    const newCard = e.target.src;
+    console.log(e.target.src);
     if (cards.includes(newCard)) {
       gameOver();
     } else {
       setCards([...cards, newCard]);
       handleCurrentScore();
-      handleBestScore();
     }
+    console.log(cards);
   };
 
   const gameOver = () => {
+    handleBestScore();
     setCurrentScore(0);
     setCards([]);
   };
@@ -39,11 +41,12 @@ function App() {
   return (
     <div>
       <h1>Nebula Memory Game</h1>
+      <p>Do not select the same image twice!</p>
       <div className="scores">
         <CurrentScore currentScore={currentScore} />
         <BestScore bestScore={bestScore} />
       </div>
-      <Grid onClick={onCardClick} />
+      <Grid cards={cards} onClick={onCardClick} />
     </div>
   );
 }
