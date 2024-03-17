@@ -4,12 +4,6 @@ import BestScore from "./components/bestScore";
 import CurrentScore from "./components/currentScore";
 import "./App.css";
 
-// API
-// NASA Image & Video API
-// search/nebula
-// media type image
-// album?
-
 function App() {
   const [currentScore, setCurrentScore] = useState(0);
   const [bestScore, setBestScore] = useState(0);
@@ -49,7 +43,7 @@ function App() {
         <CurrentScore currentScore={currentScore} />
         <BestScore bestScore={bestScore} />
       </div>
-      <Grid className="grid" cards={cards} onClick={onCardClick} />
+      <Grid onClick={onCardClick} />
     </div>
   );
 }
