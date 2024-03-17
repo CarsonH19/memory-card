@@ -1,35 +1,57 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import Grid from "./components/grid";
+import BestScore from "./components/bestScore";
+import CurrentScore from "./components/currentScore";
+import "./App.css";
+
+// API
+// NASA Image & Video API
+// search/nebula
+// media type image
+// album?
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [currentScore, setCurrentScore] = useState(0);
+  const [bestScore, setBestScore] = useState(0);
+  const [cards, setCards] = useState([]);
+
+  const handleCurrentScore = () => {
+    const newScore = currentScore + 1;
+    setCurrentScore(newScore);
+  };
+
+  const handleBestScore = () => {
+    if (currentScore > bestScore) {
+      setBestScore(currentScore);
+    }
+  };
+
+  const onCardClick = (e) => {
+    const newCard = e.target;
+    if (cards.includes(newCard)) {
+      gameOver();
+    } else {
+      setCards([...cards, newCard]);
+      handleCurrentScore();
+      handleBestScore();
+    }
+  };
+
+  const gameOver = () => {
+    setCurrentScore(0);
+    setCards([]);
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div>
+      <h1>Nebula Memory Game</h1>
+      <div className="scores">
+        <CurrentScore currentScore={currentScore} />
+        <BestScore bestScore={bestScore} />
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+      <Grid className="grid" cards={cards} onClick={onCardClick} />
+    </div>
+  );
 }
 
-export default App
+export default App;
