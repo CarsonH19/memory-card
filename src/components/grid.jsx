@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 
-
 function Grid() {
   const [images, setImages] = useState([]);
 
@@ -11,7 +10,7 @@ function Grid() {
   const fetchPlanetImages = async () => {
     try {
       const response = await fetch(
-        "https://images-api.nasa.gov/search?q=planet&media_type=image"
+        "https://images-api.nasa.gov/search?q=nebula&media_type=image"
       );
       const data = await response.json();
       const items = data.collection.items;
@@ -32,13 +31,10 @@ function Grid() {
   };
 
   return (
-    <div>
-      <h2>Random Planet Images</h2>
-      <div className="cards">
-        {images.map((image, index) => (
-          <img key={index} src={image} alt={`Planet ${index + 1}`} />
-        ))}
-      </div>
+    <div className="grid">
+      {images.map((image, index) => (
+        <img className="card" key={index} src={image} alt={`Planet ${index + 1}`} />
+      ))}
     </div>
   );
 }
